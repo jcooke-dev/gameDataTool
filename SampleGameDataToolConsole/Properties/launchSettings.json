@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SampleGameDataToolConsole": {
+      "commandName": "Project",
+      "commandLineArgs": " -testingCycle   -packFromFolder \"e:\\Users\\justin\\Documents\\iRacing\"  -outBaseName \"thisIsATest\" -useChecksum -outFolder e:\\Users\\justin\\Documents\\iRacing\\test10 "
+    }
+  }
+}
