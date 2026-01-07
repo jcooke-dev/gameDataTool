@@ -29,4 +29,4 @@ I targeted this tool to modern Windows machines and used these IDEs, utilities, 
 ## Interesting Development Questions and Solutions
 
 ## License
-Distributed under the MIT license here: (LICENSE)
+Distributed under the MIT license here: [LICENSE](LICENSE)
