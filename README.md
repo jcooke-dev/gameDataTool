@@ -25,8 +25,29 @@ I targeted this tool to modern Windows machines and used these IDEs, utilities, 
 * The tool includes a somewhat simplistic checksum calculation stored with the PKD file's metadata and then used on subsequent imports to confirm that the file hasn't been modified.
 
 ## Usage
+### If using the **Windows GUI application** (WpfSampleGameDataToolGUI):
+* You build the working data package (all assets for a single game entity, such as a car or track) with the buttons on the left-side pane.  They're basically self-explanatory: you can choose to add an individual file, all files from a folder, or all files contained in an already-generated PKD file.
+* You can see all assets within your package in the left-side ListBox.  If you click on any of those, IMAGEs will be displayed on the right-side.  Other asset types aren't previewed.
+* Once satisfied with the full package, you can generate the single PKD file, which will contain the consolidated assets for distribution.
+![Screenshot of the GUI tool in use.](docs/sampleGuiTool.png)
 
-## Interesting Development Questions and Solutions
+### If using the **console application** (SampleGameDataToolConsole):
+* You run the tool from the command line, passing argumnents to control which asset files are used to generate a PKD file.
+* These are the supported arguments:
+
+	| Argument | Description/Usage |
+	|----------|-------------------|
+	| `-packFromFolder` | pass the folder from which to import all supported assets into the working package |
+	| `-outFolder` | pass the folder into which the generated PKD file should be placed |
+	| `-outBaseName` | pass the base name of the generated PKD file (a dateTime stamp will be appended) |
+	| `-useChecksum` | this is only a flag (don't pass anything else) that the tool should use the checksum |
+	| `-testingCycle` | this is only a flag (don't pass anything else) that the tool should extract the asset files from all PKD files found in the outFolder path |
+* Here's a sample call: `SampleGameDataToolConsole.exe  -testingCycle   -packFromFolder "e:\Users\justin\Documents\iRacing"  -outBaseName "thisIsATest" -useChecksum -outFolder e:\Users\justin\Documents\iRacing\test10`
+
+## Interesting Development Notes
+* **Persistence** I wanted to maintain at least a simplified version of user settings/persistence.  This GUI app will remember and restore the user's last window state (state, size, and position) and their last-accessed folder and PKD files.  I primarily used the default User-scoped settings feature, with a very minor customization to store the recently-accessed PKD file list (that's needed because the default settings mechanism can only store simple types, like strings -- not collections or lists.  I only joined the paths in a single string with the '^' char.  See here in the code: [WpfSampleGameDataToolGUI/ToolUserSettings.cs#L36-L90](WpfSampleGameDataToolGUI/ToolUserSettings.cs#L36-L90)
+* **ComboBox Placeholder Text** Somewhat oddly, the xaml ComboBox doesn't support the placeholder text concept (where with no selection, the user can see a kind of hint/placeholder text).  I easily implemented this feature by including a 'placeholder' as the first entry in the list of items.  It's just ignored when processing any ComboBox selections.  See here in the code: [WpfSampleGameDataToolGUI/ToolUserSettings.cs#L53](WpfSampleGameDataToolGUI/ToolUserSettings.cs#L53)
+* **Checksum** I felt it would be useful to provide a minimal type of file modification detection, so that the tool could recognize any potentially-corrupted files and reject them for import.  This was handled with a very simple, primitive type of checksum.  I'm only adding every 4 bytes in each asset file's byte[] (read with a BitConverter.ToInt32()) to an Int32 checksum value.  The wrap-around, as the sum exceeds the Int32 capacity, is expected and used in generating the checksum value.  See the code here: [GameDataTool/DataPackage.cs#L98-L111](GameDataTool/DataPackage.cs#L98-L111)
 
 ## License
 Distributed under the MIT license here: [LICENSE](LICENSE)
