@@ -4,6 +4,10 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+  </Folder>
   <Project Path="GameDataTool/GameDataTool.csproj" Id="5a8990f9-3f62-4597-9026-838697d015bd" />
   <Project Path="SampleGameDataToolConsole/SampleGameDataToolConsole.csproj" Id="075c5a24-4913-484d-8619-5acd91f43cef" />
   <Project Path="WpfSampleGameDataToolGUI/WpfSampleGameDataToolGUI.csproj" />
